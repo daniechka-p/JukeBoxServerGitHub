@@ -29,6 +29,7 @@ public class MusicServer
                     tellEveryone(o1, o2);
                 }
             } catch (Exception ex) {
+                ex.printStackTrace();
                 System.out.println("Disconnected");
             }
         }
@@ -37,7 +38,7 @@ public class MusicServer
     public void go() {
         clientOutputStreams = new ArrayList();
         try {
-            ServerSocket serverSock = new ServerSocket(4242);
+            ServerSocket serverSock = new ServerSocket(4343);
             while(true) {
                 Socket clientSocket = serverSock.accept();
                 ObjectOutputStream out = new ObjectOutputStream(clientSocket.getOutputStream());
@@ -51,10 +52,9 @@ public class MusicServer
         }
     }
     public void tellEveryone(Object one, Object two) {
-        Iterator it = clientOutputStreams.iterator();
-        while (it.hasNext()) {
+        for (Object clientOutputStream : clientOutputStreams) {
             try {
-                ObjectOutputStream out = (ObjectOutputStream) it.next();
+                ObjectOutputStream out = (ObjectOutputStream) clientOutputStream;
                 out.writeObject(one);
                 out.writeObject(two);
             } catch (Exception ex) {
