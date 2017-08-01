@@ -4,14 +4,14 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
-public class MusicServer
+class MusicServer
 {
-    ArrayList clientOutputStreams;
+    private ArrayList clientOutputStreams;
 
     public class ClientHandler implements Runnable {
         ObjectInputStream in;
         Socket sock;
-        public ClientHandler(Socket clientSocket) {
+        ClientHandler(Socket clientSocket) {
             try {
                 sock = clientSocket;
                 in = new ObjectInputStream(sock.getInputStream());
@@ -35,7 +35,7 @@ public class MusicServer
         }
     }
 
-    public void go() {
+    void go() {
         clientOutputStreams = new ArrayList();
         try {
             ServerSocket serverSock = new ServerSocket(4343);
@@ -51,7 +51,7 @@ public class MusicServer
             ex.printStackTrace();
         }
     }
-    public void tellEveryone(Object one, Object two) {
+    private void tellEveryone(Object one, Object two) {
         for (Object clientOutputStream : clientOutputStreams) {
             try {
                 ObjectOutputStream out = (ObjectOutputStream) clientOutputStream;
